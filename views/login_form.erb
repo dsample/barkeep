@@ -1,0 +1,17 @@
+<%#
+  View params:
+   - openid_providers: a list of OpenID provider URLs
+ %>
+<div id="loginContainer">
+  <form class="loginForm" action="/signin" type="POST">
+    <h2>Enter your credentials below</h2>
+
+    <% if error %>
+      <div class="error"><%= error %></div>
+    <% end %>
+
+    <div>Username: <input class="username" type="text" <%= "value=\"#{username}\"" if username %> /></div>
+
+    <div><input class="loginSubmit" type="submit" value="Login" /></div>
+  </form>
+</div>

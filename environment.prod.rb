@@ -5,6 +5,7 @@ DB_USER = "root"
 DB_PASSWORD = ""
 REDIS_HOST = "localhost"
 REDIS_PORT = 6379
+LOGIN_TYPE = :openid
 OPENID_PROVIDERS = "https://www.google.com/accounts/o8/ud"
 BARKEEP_HOSTNAME = "barkeep_vagrant"
 REPOS_ROOT = "barkeep_repos"
