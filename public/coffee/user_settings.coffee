@@ -1,6 +1,7 @@
 window.Settings =
   init: ->
     $("#editDisplayName").on "click", (e) => @makeTextEditable(e)
+    $("#editPassword").on "click", (e) => @makePasswordEditable(e)
     $("#lineLengthSlider").slider
       value: parseInt($("#lineLengthSlider").attr("data-value"))
       min: 80
@@ -22,6 +23,15 @@ window.Settings =
     KeyboardShortcuts.registerShortcut $inputText, "esc", => @cancelTextEdit($inputText)
     KeyboardShortcuts.registerShortcut $inputText, "return", => @saveTextEdit($inputText)
 
+  makePasswordEditable: (event) ->
+    $displayText = $(event.target)
+    $inputText = $("<input type='password'></input>")
+    $displayText.hide()
+    $inputText.focus()
+    $inputText.on "blur", => @cancelTextEdit($inputText)
+    KeyboardShortcuts.registerShortcut $inputText, "esc", => @cancelTextEdit($inputText)
+    KeyboardShortcuts.registerShortcut $inputText, "return", => @saveTextEdit($inputText)
+
   saveLineLength: (event, ui) ->
     length = ui.value
     $("#lineLength").css { opacity: "0.5" }
@@ -35,7 +45,7 @@ window.Settings =
     value = $inputText.val()
     $displayText = $inputText.siblings("span")
     preference = $displayText[0].id.replace(/^edit/, "").toLowerCase()
-    $displayText.text(value)
+    $displayText.text(value) if ($inputText.type != "password")
     $inputText.remove()
     $displayText.css { opacity: "0.5" }
     $displayText.show()

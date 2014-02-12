@@ -265,9 +265,9 @@ class BarkeepServer < Sinatra::Base
     end
 
     post "/signin" do
-      ensure_required_params :username
+      ensure_required_params :username, :password
       user = User.find(:username => params[:username])
-      if user
+      if user && user.password_matches(params[:password])
         session[:email] = user.email
         redirect session[:login_started_url] || "/"
       else
@@ -287,6 +287,9 @@ class BarkeepServer < Sinatra::Base
     preference = params[:preference]
     if preference == "displayname"
       current_user.name = params[:value]
+      current_user.save
+    elsif preference == "password"
+      current_user.password = params[:password]
       current_user.save
     elsif ["line_length", "default_to_side_by_side"].include? preference
       current_user.send :"#{preference}=", params[:value]

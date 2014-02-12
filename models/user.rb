@@ -122,4 +122,14 @@ class User < Sequel::Model
     search
   end
 
+  def password=(new_pass)
+    require 'digest/sha1'
+    self.password = Digest::SHA1.hexdigest(new_pass)
+  end
+
+  def password_matches(pass)
+    require 'digest/sha1'
+    self.password == Digest::SHA1.hexdigest(pass)
+  end
+
 end
